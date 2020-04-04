@@ -1,9 +1,9 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.catalina.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,10 +14,16 @@ public class Status implements Serializable {
 /**
  * Attributes
  */
+    @Id
+    @SequenceGenerator( name = "STATUS_STATUSID_GENERATOR",
+        sequenceName = "public.status_status_id_seq", allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "STATUS_STATUSID_GENERATOR" )
+    @Column(name = "id")
     private Integer id;
-
+    @Column(name="name")
     private String name;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "status")
     private List<UserRoutine> userRoutines;
 
     public Status(Integer id, String name, List<UserRoutine> userRoutines) {

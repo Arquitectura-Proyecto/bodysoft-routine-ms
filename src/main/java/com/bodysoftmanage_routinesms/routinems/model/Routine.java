@@ -1,7 +1,8 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,28 +14,38 @@ public class Routine implements Serializable {
 /**
  * Attributes
  */
+    @Id
+    @SequenceGenerator( name = "ROUTINE_ROUTINEID_GENERATOR",
+        sequenceName = "public.routine_routine_id_seq", allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "ROUTINE_ROUTINEID_GENERATOR" )
+    @Column(name = "id")
     private Integer id;
-
+    @Column(name="id_owner")
     private Integer idOwner;
-
+    @Column(name="rating")
     private Float rating;
-
+    @Column(name="num_raitings")
     private Integer numRaitings;
-
+    @Column(name="price")
     private Float price;
-
+    @Column(name="name")
     private String name;
-
+    @Column(name="description")
     private String description;
-
+    @Column(name="link_preview")
     private String linkPreview;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "routine")
     private List<Resource>resources;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "routine")
     private List<Request>requests;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "routine")
     private List<UserRoutine>userRoutines;
 
+    @ManyToOne
+    @JoinColumn(name = "id_type")
     private TypeRoutine type;
 
     public Routine(Integer idOwner, Float rating, Integer numRaitings, Float price, String name, String description, String linkPreview, List<Resource> resources, List<Request> requests, List<UserRoutine> userRoutines, TypeRoutine type) {

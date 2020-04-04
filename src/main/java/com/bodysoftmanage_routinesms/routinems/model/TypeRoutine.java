@@ -1,7 +1,9 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.br.CPF;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,15 +14,21 @@ public class TypeRoutine implements Serializable {
 /**
  * Attributes
  */
+    @Id
+    @SequenceGenerator( name = "TYPEROUTINE_TYPEROUTINEID_GENERATOR",
+            sequenceName = "public.typeroutine_typeroutine_id_seq", allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "TYPEROUTINE_TYPEROUTINEID_GENERATOR" )
+    @Column(name="id")
     private Integer id;
-
-    private String nombre;
-
+    @Column(name="name")
+    private String name;
+    @JsonIgnore
+    @OneToMany(mappedBy = "type")
     private List<Routine> routines;
 
-    public TypeRoutine(Integer id, String nombre, List<Routine> routines) {
+    public TypeRoutine(Integer id, String name, List<Routine> routines) {
         this.id = id;
-        this.nombre = nombre;
+        this.name = name;
         this.routines = routines;
     }
 
@@ -35,12 +43,12 @@ public class TypeRoutine implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Routine> getRoutines() {

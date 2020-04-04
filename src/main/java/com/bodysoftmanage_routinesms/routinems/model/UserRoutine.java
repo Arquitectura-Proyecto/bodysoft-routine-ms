@@ -1,7 +1,6 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -11,8 +10,21 @@ public class UserRoutine implements Serializable {
 /**
  * Attributes
  */
+
+    @Id
+    @SequenceGenerator( name = "TYPEROUTINE_TYPEROUTINEID_GENERATOR",
+            sequenceName = "public.typeroutine_typeroutine_id_seq", allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "TYPEROUTINE_TYPEROUTINEID_GENERATOR" )
+    @Column(name="id")
+    private Integer id;
+    @ManyToOne
+    @JoinColumn(name="id_user")
     private Integer idUser;
+    @ManyToOne
+    @JoinColumn(name="id_routine")
     private Routine routine;
+    @ManyToOne
+    @JoinColumn(name="id_status")
     private Status status;
 
     public UserRoutine(Integer idUser, Routine routine, Status status) {

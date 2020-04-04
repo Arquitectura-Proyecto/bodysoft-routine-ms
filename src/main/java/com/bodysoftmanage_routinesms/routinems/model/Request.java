@@ -1,7 +1,8 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -11,10 +12,19 @@ public class Request implements Serializable {
     /**
      * Attributes
      */
+    @Id
+    @SequenceGenerator( name = "REQUEST_REQUESTID_GENERATOR",
+            sequenceName = "public.request_request_id_seq", allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "REQUEST_REQUESTID_GENERATOR" )
+    @Column(name = "id")
     private Integer id;
 
+
+    @ManyToOne
+    @JoinColumn(name="id_routine")
     private Routine routine;
 
+    @Column(name="id_user")
     private Integer idUser;
 
     public Request(Routine routine, Integer idUser) {

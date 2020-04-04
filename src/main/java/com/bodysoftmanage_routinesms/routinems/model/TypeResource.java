@@ -1,7 +1,9 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.bodysoftmanage_routinesms.routinems.repository.ResourceRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,16 +14,22 @@ public class TypeResource implements Serializable {
 /**
  * Attributes
  */
+    @Id
+    @SequenceGenerator( name = "TYPERESOURCE_TYPERESOURCEID_GENERATOR",
+            sequenceName = "public.typeresource_typeresource_id_seq", allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "TYPERESOURCE_TYPERESOURCEID_GENERATOR" )
+    @Column(name = "id")
     private Integer id;
-
+    @Column(name="name")
     private String name;
+    @JsonIgnore
+    @OneToMany(mappedBy = "type")
+    private List<Resource> resources;
 
-    private List<Routine> routines;
-
-    public TypeResource(Integer id, String name, List<Routine> routines) {
+    public TypeResource(Integer id, String name, List<Resource> resources) {
         this.id = id;
         this.name = name;
-        this.routines = routines;
+        this.resources = resources;
     }
 
     public TypeResource() {
@@ -43,11 +51,11 @@ public class TypeResource implements Serializable {
         this.name = name;
     }
 
-    public List<Routine> getRoutines() {
-        return routines;
+    public List<Resource> getResources() {
+        return resources;
     }
 
-    public void setRoutines(List<Routine> routines) {
-        this.routines = routines;
+    public void setResources(List<Resource> resources) {
+        this.resources = resources;
     }
 }

@@ -1,7 +1,6 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -12,19 +11,25 @@ public class Resource implements Serializable {
     /**
      * Attributes
      */
-
+    @Id
+    @SequenceGenerator( name = "RESOURCE_RESOURCEID_GENERATOR",
+            sequenceName = "public.resource_resource_id_seq", allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "RESOURCE_RESOURCEID_GENERATOR" )
+    @Column(name = "id")
     private Integer id;
-
+    @ManyToOne
+    @JoinColumn(name="id_routine")
     private Routine routine;
-
+    @Column(name="link")
     private String link;
-
+    @Column(name="title")
     private String title;
-
+    @Column(name="description")
     private String description;
-
+    @Column(name="position")
     private Integer position;
-
+    @ManyToOne
+    @JoinColumn(name="id_type")
     private TypeResource type;
 
     public Resource(Routine routine, String link, String title, String description, Integer position, TypeResource type) {
