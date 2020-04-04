@@ -17,8 +17,7 @@ public class UserRoutine implements Serializable {
     @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "TYPEROUTINE_TYPEROUTINEID_GENERATOR" )
     @Column(name="id")
     private Integer id;
-    @ManyToOne
-    @JoinColumn(name="id_user")
+    @Column
     private Integer idUser;
     @ManyToOne
     @JoinColumn(name="id_routine")
