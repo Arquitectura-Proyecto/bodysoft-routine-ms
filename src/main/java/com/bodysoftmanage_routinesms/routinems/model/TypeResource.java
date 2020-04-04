@@ -2,11 +2,12 @@ package com.bodysoftmanage_routinesms.routinems.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name="type",schema = "public")
-public class TypeResource {
+public class TypeResource implements Serializable {
     private static final long serialVersionUID=1L;
 /**
  * Attributes
