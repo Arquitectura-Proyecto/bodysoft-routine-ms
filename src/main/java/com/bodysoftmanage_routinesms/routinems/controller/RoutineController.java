@@ -25,6 +25,7 @@ public class RoutineController {
     newRoutine.setDescription(routinePOJO.getDescription());
     newRoutine.setPrice(routinePOJO.getPrice());
     newRoutine.setName(routinePOJO.getName());
+    routineService.save(newRoutine);
     return new ResponseEntity(HttpStatus.CREATED);
     }
 }
