@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name="type",schema = "public")
+@Table(name="type_resource",schema = "public")
 public class TypeResource implements Serializable {
     private static final long serialVersionUID=1L;
 /**
