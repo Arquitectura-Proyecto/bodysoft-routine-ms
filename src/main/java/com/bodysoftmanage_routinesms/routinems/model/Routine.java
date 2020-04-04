@@ -1,8 +1,5 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
-
-
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
