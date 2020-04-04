@@ -5,6 +5,8 @@ public class RegisterRoutinePOJO {
     private Float price;
     private String name;
     private String description;
+    private String link_preview;
+
 
     public Integer getIdOwner() {
         return idOwner;
@@ -37,4 +39,16 @@ public class RegisterRoutinePOJO {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getLink_preview() {
+        return link_preview;
+    }
+
+    public void setLink_preview(String link_preview) {
+        this.link_preview = link_preview;
+    }
+
+
+
+
 }
