@@ -1,1 +1,0 @@
-insert into `mydb`.`user_routine` values ()

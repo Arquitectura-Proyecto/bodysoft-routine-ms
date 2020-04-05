@@ -23,7 +23,7 @@ public class RoutineService {
         if(correct){
             correct=!routine.getDescription().trim().isEmpty()
                     &&!routine.getLink_preview().trim().isEmpty()
-                    &&!routine.getName().trim().isEmpty();
+                    &&!routine.getName().trim().isEmpty()&&routine.getPrice()>=0;
         }
         return  correct;
     }
