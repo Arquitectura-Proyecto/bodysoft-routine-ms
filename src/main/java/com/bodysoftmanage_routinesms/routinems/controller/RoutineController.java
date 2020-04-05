@@ -26,7 +26,7 @@ public class RoutineController {
     public ResponseEntity registerNewRoutine(@PathVariable Integer idType, @RequestBody RegisterRoutinePOJO routinePOJO){
     TypeRoutine type=typeRoutineService.findById(idType);
 
-        if(type==null && !routineService.isRigthRoutine(routinePOJO)){
+        if(type==null || !routineService.isRigthRoutine(routinePOJO)){
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
         Routine newRoutine=new Routine();
