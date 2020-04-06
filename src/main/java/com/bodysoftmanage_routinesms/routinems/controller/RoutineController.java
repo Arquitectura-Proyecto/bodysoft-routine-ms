@@ -76,8 +76,5 @@ public class RoutineController {
     public ResponseEntity<List<Routine>>getAllByType(@PathVariable Integer idType){
         return new ResponseEntity(routineService.getByType(idType),HttpStatus.OK);
     }
-    @GetMapping(value={"/routine-ms/routine/getAvailable/{idUser}"})
-    public ResponseEntity <List<Routine>>getByIdUser(@PathVariable Integer idUser){//get routines wich a user bougth
-    return new ResponseEntity(userRoutineService.getAvailableByIdUser(idUser),HttpStatus.OK);
-    }
+
 }

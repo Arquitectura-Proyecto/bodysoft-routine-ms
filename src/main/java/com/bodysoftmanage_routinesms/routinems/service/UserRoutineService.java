@@ -18,4 +18,7 @@ public class UserRoutineService {
     public List<UserRoutine>getAvailableByIdUser(Integer idUser){
        return userRoutineRepository.findAllByIdUserAndStatusId(idUser,idStatusAvailable);
     }
+    public void save(UserRoutine userRoutine){
+        this.userRoutineRepository.save(userRoutine);
+    }
 }
