@@ -2,6 +2,7 @@
 -- -----------------------------------------------------
 -- Table `mydb`.`type`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `mydb`.`type` (
   `id` INT NOT NULL,
   `name` VARCHAR(45) NOT NULL,
