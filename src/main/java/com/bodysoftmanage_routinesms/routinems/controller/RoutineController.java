@@ -5,6 +5,7 @@ import com.bodysoftmanage_routinesms.routinems.model.TypeRoutine;
 import com.bodysoftmanage_routinesms.routinems.pojo.RegisterRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.service.RoutineService;
 import com.bodysoftmanage_routinesms.routinems.service.TypeRoutineService;
+import com.bodysoftmanage_routinesms.routinems.service.UserRoutineService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,11 @@ public class RoutineController {
     private  static Integer DefaultNumRaitings=0;
     private RoutineService routineService;
     private TypeRoutineService typeRoutineService;
-
-    public RoutineController(RoutineService routineService, TypeRoutineService typeRoutineService) {
+    private UserRoutineService userRoutineService;
+    public RoutineController(RoutineService routineService, TypeRoutineService typeRoutineService,UserRoutineService userRoutineService) {
         this.routineService = routineService;
         this.typeRoutineService = typeRoutineService;
+        this.userRoutineService=userRoutineService;
     }
 
     @PostMapping(value={"/routine-ms/register/routine/{idType}"})
@@ -74,4 +76,5 @@ public class RoutineController {
     public ResponseEntity<List<Routine>>getAllByType(@PathVariable Integer idType){
         return new ResponseEntity(routineService.getByType(idType),HttpStatus.OK);
     }
+
 }
