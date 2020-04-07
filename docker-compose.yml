@@ -6,13 +6,21 @@ services:
   routine-ms:
     build: .
     ports:
-      - "4000:4000"
+      - "8080:8080"
     depends_on:
       - mysql-db
     links:
       - mysql-db
     networks:
       - example-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/mydb?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+      spring.flyway.url: jdbc:mysql://mysql-db:3306/
+      spring.flyway.schemas: mydb
+      spring.flyway.user: root
+      spring.flyway.password: 1234
 
   mysql-db:
     image: mysql:5.7
