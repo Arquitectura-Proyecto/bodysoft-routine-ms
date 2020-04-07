@@ -2,6 +2,8 @@ package com.bodysoftmanage_routinesms.routinems.controller;
 
 import com.bodysoftmanage_routinesms.routinems.model.Routine;
 import com.bodysoftmanage_routinesms.routinems.model.TypeRoutine;
+import com.bodysoftmanage_routinesms.routinems.model.UserRoutine;
+import com.bodysoftmanage_routinesms.routinems.pojo.RaitingRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.pojo.RegisterRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.service.RoutineService;
 import com.bodysoftmanage_routinesms.routinems.service.TypeRoutineService;
@@ -76,5 +78,22 @@ public class RoutineController {
     public ResponseEntity<List<Routine>>getAllByType(@PathVariable Integer idType){
         return new ResponseEntity(routineService.getByType(idType),HttpStatus.OK);
     }
+    @PutMapping(value={"/routine-ms/routine/raiting/{idRoutine}"})
+    public ResponseEntity raitingRoutine(@PathVariable Integer idRoutine,@RequestBody RaitingRoutinePOJO raiting){
+        Routine routine=routineService.getById(idRoutine);
+        if(routine==null||!routineService.isRigthRaiting(raiting)){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        UserRoutine userRoutine=userRoutineService.getByIdUserAndIdRoutine(raiting.getIdUser(),idRoutine);
+       if(userRoutine==null||!userRoutineService.canBeQualified(userRoutine)){
+           return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+       }
+        userRoutine.setQuailified(true);
+        routineService.rateARoutine(routine,raiting.getRaiting());
+        routineService.save(routine);
+        userRoutineService.save(userRoutine);
+        return new ResponseEntity(HttpStatus.OK);
 
+
+    }
 }
