@@ -3,6 +3,15 @@ networks:
   example-network:
     driver: bridge
 services:
+  mysql-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3307:3306"
+    networks:
+      - example-network
   routine-ms:
     build: .
     ports:
@@ -22,12 +31,4 @@ services:
       spring.flyway.user: root
       spring.flyway.password: 1234
 
-  mysql-db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: mydb
-    ports:
-      - "3307:3306"
-    networks:
-      - example-network
+
