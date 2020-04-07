@@ -1,5 +1,7 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
+import javafx.beans.DefaultProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -25,15 +27,34 @@ public class UserRoutine implements Serializable {
     @ManyToOne
     @JoinColumn(name="id_status")
     private Status status;
+    @Column(name="qualified",columnDefinition = "BOOLEAN DEFAULT 0")
+    private Boolean quailified;
 
-    public UserRoutine(Integer idUser, Routine routine, Status status) {
+    public UserRoutine(Integer idUser, Routine routine, Status status, Boolean quailified) {
         this.idUser = idUser;
         this.routine = routine;
         this.status = status;
+        this.quailified = quailified;
     }
-
     public UserRoutine() {
     }
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Boolean getQuailified() {
+        return quailified;
+    }
+
+    public void setQuailified(Boolean quailified) {
+        this.quailified = quailified;
+    }
+
+
 
     public Integer getIdUser() {
         return idUser;

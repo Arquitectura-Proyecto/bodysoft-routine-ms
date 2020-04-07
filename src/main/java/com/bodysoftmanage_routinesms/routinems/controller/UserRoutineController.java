@@ -21,19 +21,19 @@ public class UserRoutineController {
     private UserRoutineService userRoutineService;
     private RoutineService routineService;
     private StatusService statusService;
-
+    private static Boolean defaultQualified=false;
     public UserRoutineController(UserRoutineService userRoutineService, RoutineService routineService, StatusService statusService) {
         this.userRoutineService = userRoutineService;
         this.routineService = routineService;
         this.statusService = statusService;
     }
 
-    @GetMapping(value={"/routine-ms/user-routine/getAvailable/{idUser}"})
+    @GetMapping(value={"/routine-ms/user-routine/getAvailable/{idUser}"})//permite ver las rutinas que un usuario ha comprado
     public ResponseEntity<List<UserRoutine>> getByIdUser(@PathVariable Integer idUser){//get routines wich a user bougth
         return new ResponseEntity(userRoutineService.getAvailableByIdUser(idUser), HttpStatus.OK);
     }
     @PostMapping(value={"/routine-ms/user-routine/register"})
-    public ResponseEntity register(@RequestBody RegisterUserRoutinePOJO userRoutine){
+    public ResponseEntity register(@RequestBody RegisterUserRoutinePOJO userRoutine){//permite a usuario comprar una rutina
         Routine routine=routineService.getById(userRoutine.getIdRoutine());
         Status status=statusService.getById(userRoutine.getIdStatus());
         if(routine==null||status==null){
@@ -43,9 +43,12 @@ public class UserRoutineController {
         newuserRoutine.setIdUser(userRoutine.getIdUser());
         newuserRoutine.setRoutine(routine);
         newuserRoutine.setStatus(status);
+        newuserRoutine.setQuailified(defaultQualified);
         userRoutineService.save(newuserRoutine);
         return new ResponseEntity(HttpStatus.CREATED);
     }
+
+
 
 
 }

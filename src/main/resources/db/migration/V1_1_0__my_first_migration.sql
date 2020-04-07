@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user_routine` (
   `id_user` INT NOT NULL,
   `id_routine` INT NOT NULL,
   `id_status` INT NOT NULL,
+  `qualified` BOOLEAN NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_userroutine_routine_idx` (`id_routine` ASC) ,
   INDEX `fk_userroutine_status_idx` (`id_status` ASC) ,

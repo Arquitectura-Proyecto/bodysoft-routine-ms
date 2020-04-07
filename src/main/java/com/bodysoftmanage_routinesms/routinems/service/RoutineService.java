@@ -1,6 +1,7 @@
 package com.bodysoftmanage_routinesms.routinems.service;
 
 import com.bodysoftmanage_routinesms.routinems.model.Routine;
+import com.bodysoftmanage_routinesms.routinems.pojo.RaitingRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.pojo.RegisterRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.repository.RoutineRepository;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,18 @@ public class RoutineService {
     }
     public List<Routine>getByType(Integer idType){
         return routineRepository.findAllByTypeId(idType);
+    }
+    public boolean isRigthRaiting(RaitingRoutinePOJO raitingRoutinePOJO){
+        boolean correct=raitingRoutinePOJO.getIdUser()!=null &&raitingRoutinePOJO.getRaiting()!=null
+                &&raitingRoutinePOJO.getRaiting()>=0;
+        return correct;
+
+    }
+
+    public void rateARoutine(Routine routine,Float newRaiting){
+    float newGeneralRaiting=(routine.getRating()*routine.getNumRaitings()+newRaiting)/(routine.getNumRaitings()+1);
+    routine.setNumRaitings(routine.getNumRaitings()+1);
+    routine.setRating(newGeneralRaiting);
     }
 
 }

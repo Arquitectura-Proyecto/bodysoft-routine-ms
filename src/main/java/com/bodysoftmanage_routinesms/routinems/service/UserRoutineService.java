@@ -21,4 +21,10 @@ public class UserRoutineService {
     public void save(UserRoutine userRoutine){
         this.userRoutineRepository.save(userRoutine);
     }
+    public UserRoutine getByIdUserAndIdRoutine(Integer idUser,Integer idRoutine){
+        return  this.userRoutineRepository.findFirstByIdUserAndRoutineId(idUser,idRoutine);
+    }
+    public boolean canBeQualified(UserRoutine userRoutine){
+        return userRoutine.getQuailified()==false;
+    }
 }

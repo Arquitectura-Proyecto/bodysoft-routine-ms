@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface UserRoutineRepository extends JpaRepository<UserRoutine,Integer> {
     public List<UserRoutine> findAllByIdUserAndStatusId(Integer idUser,Integer idStatus);
+    public UserRoutine findFirstByIdUserAndRoutineId(Integer idUser,Integer idRoutine);
 }
