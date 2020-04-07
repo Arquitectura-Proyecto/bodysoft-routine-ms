@@ -1,24 +1,25 @@
-version: '3'
-
+version: "2.1"
+networks:
+  example-network:
+    driver: bridge
 services:
-  web:
+  routine-ms:
     build: .
     ports:
-      - '8080:8080'
+      - "4000:4000"
     depends_on:
       - mysql-db
     links:
       - mysql-db
+    networks:
+      - example-network
 
   mysql-db:
-    image: 'mysql:5.7'
-    ports:
-      - '3307:3306'
+    image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=mydb
-      - MYSQL_ROOT_USER=root
-
-
-
-
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3307:3306"
+    networks:
+      - example-network
