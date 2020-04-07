@@ -2,6 +2,7 @@
 -- -----------------------------------------------------
 -- Table `mydb`.`type`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `mydb`.`type` (
   `id` INT NOT NULL,
   `name` VARCHAR(45) NOT NULL,
@@ -23,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`routine` (
   `description` VARCHAR(100) NOT NULL,
   `link_preview` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_routine_type_idx` (`id_type` ASC) VISIBLE,
+  INDEX `fk_routine_type_idx` (`id_type` ASC),
   CONSTRAINT `fk_routine_type`
     FOREIGN KEY (`id_type`)
     REFERENCES `mydb`.`type` (`id`)
@@ -40,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`request` (
   `id_routine` INT NOT NULL,
   `id_user` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_request_routine_idx` (`id_routine` ASC) VISIBLE,
+  INDEX `fk_request_routine_idx` (`id_routine` ASC) ,
   CONSTRAINT `fk_request_routine`
     FOREIGN KEY (`id_routine`)
     REFERENCES `mydb`.`routine` (`id`)
@@ -72,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`resource` (
   `position` INT NOT NULL,
   `id_type` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_resource_routine_idx` (`id_routine` ASC) VISIBLE,
-  INDEX `fk_resource_typeresource_idx` (`id_type` ASC) VISIBLE,
+  INDEX `fk_resource_routine_idx` (`id_routine` ASC) ,
+  INDEX `fk_resource_typeresource_idx` (`id_type` ASC),
   CONSTRAINT `fk_resource_routine`
     FOREIGN KEY (`id_routine`)
     REFERENCES `mydb`.`routine` (`id`)
@@ -106,8 +107,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user_routine` (
   `id_routine` INT NOT NULL,
   `id_status` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_userroutine_routine_idx` (`id_routine` ASC) VISIBLE,
-  INDEX `fk_userroutine_status_idx` (`id_status` ASC) VISIBLE,
+  INDEX `fk_userroutine_routine_idx` (`id_routine` ASC) ,
+  INDEX `fk_userroutine_status_idx` (`id_status` ASC) ,
   CONSTRAINT `fk_userroutine_routine`
     FOREIGN KEY (`id_routine`)
     REFERENCES `mydb`.`routine` (`id`)
