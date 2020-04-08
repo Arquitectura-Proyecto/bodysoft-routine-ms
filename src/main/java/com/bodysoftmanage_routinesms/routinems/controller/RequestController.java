@@ -7,9 +7,7 @@ import com.bodysoftmanage_routinesms.routinems.service.RequestService;
 import com.bodysoftmanage_routinesms.routinems.service.RoutineService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RequestController {
@@ -36,6 +34,14 @@ public class RequestController {
         requestService.save(newRequest);
         return new ResponseEntity(HttpStatus.CREATED);
     }
-
+    @DeleteMapping(value={"/routine-ms/request/{idRequest}"})
+    public ResponseEntity delete(@PathVariable Integer idRequest){
+        Request request=requestService.getById(idRequest);
+        if(request==null){
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        requestService.delete(request);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }

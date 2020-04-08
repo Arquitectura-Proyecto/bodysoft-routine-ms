@@ -16,7 +16,12 @@ public class RequestService {
     public void save(Request request){
         this.requestRepository.save(request);
     }
-
+    public void delete(Request request){
+        this.requestRepository.delete(request);
+    }
+    public Request getById(Integer idRequest){
+        return this.requestRepository.findById(idRequest).orElse(null);
+    }
     public boolean isRigthRequest(RegisterRequestPOJO registerRequestPOJO){
         boolean correct=registerRequestPOJO.getIdRoutine()!=null
                         &&registerRequestPOJO.getIdUser()!=null;
