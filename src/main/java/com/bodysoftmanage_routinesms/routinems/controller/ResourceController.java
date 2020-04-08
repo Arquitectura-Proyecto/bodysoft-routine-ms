@@ -20,10 +20,10 @@ public class ResourceController {
     private RoutineService routineService;
     private TypeResourceService typeResourceService;
 
-
-    public ResourceController(ResourceService resourceService, RoutineService routineService) {
+    public ResourceController(ResourceService resourceService, RoutineService routineService, TypeResourceService typeResourceService) {
         this.resourceService = resourceService;
         this.routineService = routineService;
+        this.typeResourceService = typeResourceService;
     }
 
     @PostMapping(value={"/routine-ms/resources/register/{idRoutine}"})
