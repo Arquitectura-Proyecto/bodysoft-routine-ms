@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class RequestController {
     private RequestService requestService;
@@ -43,5 +45,8 @@ public class RequestController {
         requestService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
     }
-
+    @GetMapping(value={"/routine-ms/request/getByRoutine/{idRoutine}"})
+    public ResponseEntity<List<Request>>getByRoutine(@PathVariable Integer idRoutine){
+        return new ResponseEntity(this.requestService.getAllByIdRoutine(idRoutine),HttpStatus.OK);
+    }
 }
