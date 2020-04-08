@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 public class ResourceController {
     private ResourceService resourceService;
