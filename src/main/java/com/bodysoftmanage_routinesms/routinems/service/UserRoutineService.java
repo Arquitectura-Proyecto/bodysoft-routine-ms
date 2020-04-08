@@ -32,6 +32,7 @@ public class UserRoutineService {
     public void save(UserRoutine userRoutine){
         this.userRoutineRepository.save(userRoutine);
     }
+
     public UserRoutine getByIdUserAndIdRoutine(Integer idUser,Integer idRoutine){
         return  this.userRoutineRepository.findFirstByIdUserAndRoutineId(idUser,idRoutine);
     }
@@ -45,4 +46,5 @@ public class UserRoutineService {
     public List<UserRoutine>getByIdUser(Integer idUser){
         return this.userRoutineRepository.findAllByIdUser(idUser);
     }
+
 }

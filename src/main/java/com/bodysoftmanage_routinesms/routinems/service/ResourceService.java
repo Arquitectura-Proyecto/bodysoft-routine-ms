@@ -1,6 +1,7 @@
 package com.bodysoftmanage_routinesms.routinems.service;
 
 import com.bodysoftmanage_routinesms.routinems.model.Resource;
+import com.bodysoftmanage_routinesms.routinems.pojo.GetRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.pojo.RegisterResourcePOJO;
 import com.bodysoftmanage_routinesms.routinems.repository.ResourceRepository;
 import org.springframework.stereotype.Service;
@@ -29,4 +30,13 @@ public class ResourceService {
     public void save(Resource resource){
         resourceRepository.save(resource);
     }
+    public boolean isRigthGetByRoutine(GetRoutinePOJO getRoutinePOJO){
+        boolean correct=getRoutinePOJO.getIdRequester()!=null;
+        if(correct){
+
+            correct=getRoutinePOJO.getIdRequester()>0;
+        }
+        return correct;
+    }
+
 }
