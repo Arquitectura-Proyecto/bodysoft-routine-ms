@@ -67,7 +67,7 @@ public class UserRoutineController {
 
         }
 
-    @GetMapping(value={"/routine-ms/user-routine/get/{idUser}"})//permite ver las rutinas que un usuario ha comprado
+    @GetMapping(value={"/routine-ms/user-routine/get/{idUser}"})//permite ver las rutinas que un usuario ha comprado(archivadas o no)
     public ResponseEntity<List<UserRoutine>> getByIdUser(@PathVariable Integer idUser){//get routines wich a user bougth
         return new ResponseEntity(userRoutineService.getByIdUser(idUser), HttpStatus.OK);
     }
