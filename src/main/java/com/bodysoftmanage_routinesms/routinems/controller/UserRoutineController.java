@@ -29,8 +29,8 @@ public class UserRoutineController {
         this.statusService = statusService;
     }
 
-    @GetMapping(value={"/routine-ms/user-routine/getAvailable/{idUser}"})//permite ver las rutinas que un usuario ha comprado
-    public ResponseEntity<List<UserRoutine>> getByIdUser(@PathVariable Integer idUser){//get routines wich a user bougth
+    @GetMapping(value={"/routine-ms/user-routine/getAvailable/{idUser}"})//permite ver las rutinas que un usuario ha comprado y estan disponibles
+    public ResponseEntity<List<UserRoutine>> getAvailableByIdUser(@PathVariable Integer idUser){//get routines wich a user bougth
         return new ResponseEntity(userRoutineService.getAvailableByIdUser(idUser), HttpStatus.OK);
     }
     @PostMapping(value={"/routine-ms/user-routine/register"})
@@ -67,7 +67,10 @@ public class UserRoutineController {
 
         }
 
-
+    @GetMapping(value={"/routine-ms/user-routine/get/{idUser}"})//permite ver las rutinas que un usuario ha comprado
+    public ResponseEntity<List<UserRoutine>> getByIdUser(@PathVariable Integer idUser){//get routines wich a user bougth
+        return new ResponseEntity(userRoutineService.getByIdUser(idUser), HttpStatus.OK);
+    }
 
 
 

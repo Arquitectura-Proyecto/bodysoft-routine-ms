@@ -32,4 +32,7 @@ public class UserRoutineService {
         return changeStatus.getIdStatus()!=null&&changeStatus.getIdUser()!=null
                 &&changeStatus.getIdStatus()>0&&changeStatus.getIdUser()>0;
     }
+    public List<UserRoutine>getByIdUser(Integer idUser){
+        return this.userRoutineRepository.findAllByIdUser(idUser);
+    }
 }

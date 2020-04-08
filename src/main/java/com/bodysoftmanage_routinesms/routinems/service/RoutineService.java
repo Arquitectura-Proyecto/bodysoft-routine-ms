@@ -32,6 +32,7 @@ public class RoutineService {
     }
     public boolean isOwner(Integer idRoutine,Integer idOwner){
         Routine routine= routineRepository.findById(idRoutine).orElse(null);
+        if(routine==null)return false;
         return routine.getIdOwner().compareTo(idOwner)==0;
 
     }
