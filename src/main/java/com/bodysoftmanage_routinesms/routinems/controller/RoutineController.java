@@ -34,7 +34,7 @@ public class RoutineController {
 
         if(type==null || !routineService.isRigthRoutine(routinePOJO)){
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    }
+        }
         Routine newRoutine=new Routine();
     newRoutine.setDescription(routinePOJO.getDescription());
     newRoutine.setPrice(routinePOJO.getPrice());

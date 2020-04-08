@@ -40,6 +40,9 @@ public class UserRoutineController {
         if(routine==null||status==null){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+        if(routine.getIdOwner()!=userRoutine.getIdOwner()){
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
         UserRoutine newuserRoutine=new UserRoutine();
         newuserRoutine.setIdUser(userRoutine.getIdUser());
         newuserRoutine.setRoutine(routine);

@@ -2,6 +2,7 @@ package com.bodysoftmanage_routinesms.routinems.service;
 
 import com.bodysoftmanage_routinesms.routinems.model.UserRoutine;
 import com.bodysoftmanage_routinesms.routinems.pojo.ChangeStatusPOJO;
+import com.bodysoftmanage_routinesms.routinems.pojo.RegisterUserRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.repository.UserRoutineRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,15 @@ public class UserRoutineService {
     private static Integer idStatusAvailable=1;
     public UserRoutineService(UserRoutineRepository userRoutineRepository) {
         this.userRoutineRepository = userRoutineRepository;
+    }
+    public boolean isRigthUserRoutine(RegisterUserRoutinePOJO registerUserRoutinePOJO){
+        boolean correct=registerUserRoutinePOJO.getIdUser()!=null&&registerUserRoutinePOJO.getIdRoutine()!=null
+                        &&registerUserRoutinePOJO.getIdStatus()!=null&&registerUserRoutinePOJO.getIdOwner()!=null;
+        if(correct){
+            correct=registerUserRoutinePOJO.getIdUser()>0&&registerUserRoutinePOJO.getIdRoutine()>0
+                    &&registerUserRoutinePOJO.getIdStatus()>0&&registerUserRoutinePOJO.getIdOwner()>0;
+        }
+        return correct;
     }
 
 
