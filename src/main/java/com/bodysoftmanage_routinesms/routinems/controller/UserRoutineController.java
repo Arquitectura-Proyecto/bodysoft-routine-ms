@@ -52,7 +52,8 @@ public class UserRoutineController {
         public ResponseEntity changeStatus(@PathVariable Integer idRoutine, @RequestBody ChangeStatusPOJO changeStatus){
 
             Status status=statusService.getById(changeStatus.getIdStatus());
-            if(!userRoutineService.isCorrectChangeStatus(changeStatus)||status==null){
+            Routine routine=routineService.getById(idRoutine);
+            if(!userRoutineService.isCorrectChangeStatus(changeStatus)||status==null||routine==null){
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
             UserRoutine userRoutine=userRoutineService.getByIdUserAndIdRoutine(changeStatus.getIdUser(),idRoutine);
