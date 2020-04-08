@@ -4,6 +4,7 @@ package com.bodysoftmanage_routinesms.routinems.controller;
 import com.bodysoftmanage_routinesms.routinems.model.Routine;
 import com.bodysoftmanage_routinesms.routinems.model.Status;
 import com.bodysoftmanage_routinesms.routinems.model.UserRoutine;
+import com.bodysoftmanage_routinesms.routinems.pojo.ChangeStatusPOJO;
 import com.bodysoftmanage_routinesms.routinems.pojo.RegisterRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.pojo.RegisterUserRoutinePOJO;
 import com.bodysoftmanage_routinesms.routinems.service.RoutineService;
@@ -47,6 +48,24 @@ public class UserRoutineController {
         userRoutineService.save(newuserRoutine);
         return new ResponseEntity(HttpStatus.CREATED);
     }
+        @PutMapping(value={"/routine-ms/user-routine/changeStatus/{idRoutine}"})
+        public ResponseEntity changeStatus(@PathVariable Integer idRoutine, @RequestBody ChangeStatusPOJO changeStatus){
+
+            Status status=statusService.getById(changeStatus.getIdStatus());
+            if(!userRoutineService.isCorrectChangeStatus(changeStatus)||status==null){
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+            UserRoutine userRoutine=userRoutineService.getByIdUserAndIdRoutine(changeStatus.getIdUser(),idRoutine);
+            if(userRoutine==null){
+                return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+            }
+            userRoutine.setStatus(status);
+            userRoutineService.save(userRoutine);
+            return new ResponseEntity(HttpStatus.OK);
+
+
+        }
+
 
 
 
