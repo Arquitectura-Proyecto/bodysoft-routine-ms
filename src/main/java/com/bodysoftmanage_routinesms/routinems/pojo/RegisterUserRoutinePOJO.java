@@ -4,6 +4,7 @@ public class RegisterUserRoutinePOJO {
     private Integer idUser;
     private Integer idRoutine;
     private Integer idStatus;
+    private Integer idOwner;
 
     public Integer getIdUser() {
         return idUser;
@@ -27,5 +28,13 @@ public class RegisterUserRoutinePOJO {
 
     public void setIdStatus(Integer idStatus) {
         this.idStatus = idStatus;
+    }
+
+    public Integer getIdOwner() {
+        return idOwner;
+    }
+
+    public void setIdOwner(Integer idOwner) {
+        this.idOwner = idOwner;
     }
 }

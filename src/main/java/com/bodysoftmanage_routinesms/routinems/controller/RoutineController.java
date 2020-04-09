@@ -28,13 +28,18 @@ public class RoutineController {
         this.userRoutineService=userRoutineService;
     }
 
-    @PostMapping(value={"/routine-ms/register/routine/{idType}"})
-    public ResponseEntity registerNewRoutine(@PathVariable Integer idType, @RequestBody RegisterRoutinePOJO routinePOJO){
-    TypeRoutine type=typeRoutineService.findById(idType);
+    @PostMapping(value={"/routine-ms/register/routine"})
+    public ResponseEntity registerNewRoutine(@RequestBody RegisterRoutinePOJO routinePOJO){
 
-        if(type==null || !routineService.isRigthRoutine(routinePOJO)){
+
+        if( !routineService.isRigthRoutine(routinePOJO)){
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    }
+        }
+        TypeRoutine type=typeRoutineService.findById(routinePOJO.getIdType());
+        if(type==null){
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+
         Routine newRoutine=new Routine();
     newRoutine.setDescription(routinePOJO.getDescription());
     newRoutine.setPrice(routinePOJO.getPrice());
@@ -56,10 +61,17 @@ public class RoutineController {
     @PutMapping(value={"/routine-ms/routine/update/{idRoutine}"})
     public ResponseEntity updateRoutine(@PathVariable Integer idRoutine,@RequestBody RegisterRoutinePOJO routinePOJO){
 
-        Routine routine=routineService.getById(idRoutine);
-        if( !routineService.isRigthRoutine(routinePOJO)||routine==null){
+
+        if( !routineService.isRigthRoutine(routinePOJO)){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+        TypeRoutine type=typeRoutineService.findById(routinePOJO.getIdType());
+        Routine routine=routineService.getById(idRoutine);
+        if(type==null||routine==null){
+            return new ResponseEntity(HttpStatus.CONFLICT);
+
+        }
+
         if(!routineService.isOwner(idRoutine,routinePOJO.getIdOwner())){
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
@@ -67,6 +79,7 @@ public class RoutineController {
         routine.setPrice(routinePOJO.getPrice());
         routine.setName(routinePOJO.getName());
         routine.setLinkPreview(routinePOJO.getLink_preview());
+        routine.setType(type);
         routineService.save(routine);
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -22,11 +22,12 @@ public class RoutineService {
     }
     public boolean isRigthRoutine(RegisterRoutinePOJO routine){
         boolean correct=routine.getDescription()!=null&&routine.getIdOwner()!=null
-                &&routine.getLink_preview()!=null&&routine.getName()!=null&&routine.getPrice()!=null;
+                &&routine.getLink_preview()!=null&&routine.getName()!=null&&routine.getPrice()!=null&&routine.getIdType()!=null;
         if(correct){
             correct=!routine.getDescription().trim().isEmpty()
                     &&!routine.getLink_preview().trim().isEmpty()
-                    &&!routine.getName().trim().isEmpty()&&routine.getPrice()>=0;
+                    &&!routine.getName().trim().isEmpty()&&routine.getPrice()>=0
+                    &&routine.getIdType()>0;
         }
         return  correct;
     }
@@ -60,5 +61,6 @@ public class RoutineService {
     routine.setNumRaitings(routine.getNumRaitings()+1);
     routine.setRating(newGeneralRaiting);
     }
+
 
 }
