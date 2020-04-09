@@ -38,5 +38,10 @@ public class ResourceService {
         }
         return correct;
     }
-
+    public Resource getById(Integer id){
+        return this.resourceRepository.findById(id).orElse(null);
+    }
+    public void delete(Resource resource){
+        this.resourceRepository.delete(resource);
+    }
 }
