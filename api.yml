@@ -119,7 +119,51 @@ paths:
           required: true
           description: POJO for rate a routine
           schema:
-            $ref: '#/definitions/RegisterRoutinePOJO'
+            $ref: '#/definitions/RaitingRoutinePOJO'
+      responses:
+        '200':
+          description: Ok. When the rate was successfull
+        '401':
+          description: Unauthorized. When the user cannot rate de routine because he has rated it or he has not bougth the routine
+        '400':
+          description: Bad request. when the body is not rigth or the routine doesnot exist
+  /routine-ms/request:
+    post:
+      summary: let a user request a routine
+      operationId: requestRoutine
+      parameters:
+        - name: RegisterRequestPOJO
+          in: body
+          required: true
+          description: body for register a new request of a routine
+          schema:
+            $ref: '#/definitions/RegisterRequestPOJO'
+
+
+      responses:
+        '400':
+          description: Bad Request. The body has null values or incorrect
+        '409':
+          description: Conflict . The routine doesnot exist
+        '201':
+          description: Created
+  /routine-ms/request/{idRequest}:
+    delete:
+      summary: delete a the request given by idRequest
+      operationId: deleteRequest
+      parameters:
+        - name: idRequest
+          in: path
+          required: true
+          type: integer
+      responses:
+        '409':
+          description: Conflict. the request doesnot exist
+        '200':
+          description: Ok. The request has been deleted
+
+  /routine-ms/request/getByRoutine/{idRoutine}:
+    get:
 
 definitions:
 
@@ -252,3 +296,27 @@ definitions:
         type: integer
         example: 0
         minimun: 1
+  RaitingRoutinePOJO:
+    type: object
+    required:
+      - raiting
+      - idUser
+    properties:
+      raiting:
+        type: number
+        example: 1.2
+      idUser:
+        type: integer
+        example: 1
+  RegisterRequestPOJO:
+    type: object
+    required:
+      -idRoutine
+      -idUser
+    properties:
+      idRoutine:
+        type: integer
+        example: 1
+      idUser:
+        type: integer
+        example: 1
