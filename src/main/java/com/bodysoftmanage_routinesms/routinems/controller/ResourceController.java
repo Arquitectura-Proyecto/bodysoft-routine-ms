@@ -5,6 +5,7 @@ import com.bodysoftmanage_routinesms.routinems.model.Routine;
 import com.bodysoftmanage_routinesms.routinems.model.TypeResource;
 import com.bodysoftmanage_routinesms.routinems.model.UserRoutine;
 import com.bodysoftmanage_routinesms.routinems.pojo.GetRoutinePOJO;
+import com.bodysoftmanage_routinesms.routinems.pojo.OwnerPOJO;
 import com.bodysoftmanage_routinesms.routinems.pojo.RegisterResourcePOJO;
 import com.bodysoftmanage_routinesms.routinems.service.ResourceService;
 import com.bodysoftmanage_routinesms.routinems.service.RoutineService;
@@ -69,5 +70,39 @@ public class ResourceController {
         return new ResponseEntity<>(routine.getResources(),HttpStatus.OK);
 
     }
+    @PutMapping(value={"/routine-ms/resources/update/{idResource}"})
+    public ResponseEntity update(@PathVariable Integer idResource, @RequestBody RegisterResourcePOJO updatePOJO){
+        if(!resourceService.isRigthResource(updatePOJO)){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        Resource resource=resourceService.getById(idResource);
+        TypeResource type=typeResourceService.getById(updatePOJO.getIdType());
+        if(resource==null||type==null){
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        if(updatePOJO.getIdOwner()!=resource.getRoutine().getIdOwner()){
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+        resource.setLink(updatePOJO.getLink());
+        resource.setTitle(updatePOJO.getTitle());
+        resource.setDescription(updatePOJO.getDescription());
+        resource.setPosition(updatePOJO.getPosition());
+        resource.setType(type);
+        resourceService.save(resource);
+        return new ResponseEntity(HttpStatus.OK);
 
+    }
+    @DeleteMapping(value={"/routine-ms/resources/delete/{idResource}"})
+    public ResponseEntity delete(@PathVariable Integer idResource,@RequestBody OwnerPOJO ownerPOJO){
+        Resource resource=resourceService.getById(idResource);
+        if(resource==null){
+            return  new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        if(ownerPOJO.getIdOwner()==null||ownerPOJO.getIdOwner()!=resource.getRoutine().getIdOwner()){
+           return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+
+        }
+        resourceService.delete(resource);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
