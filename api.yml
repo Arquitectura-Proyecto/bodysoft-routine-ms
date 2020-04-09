@@ -68,8 +68,58 @@ paths:
           description: Routine Object for Register
           schema:
             $ref: '#/definitions/RegisterRoutinePOJO'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/RegisterRoutinePOJOErrorModel'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/RegisterRoutinePOJOConflictModel'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/RegisterRoutinePOJOUnauthorizedModel"
+  /routine-ms/routine/getAll:
+    get:
+      summary: Returns all routines registered
+      operationId: getAllRoutine
+      responses:
+        '200':
+          description: Ok
+  /routine-ms/routine/getByType/{idType}:
+    get:
+      summary: Returns all routines from a given type
+      operationId: getAllRoutinesByIdType
+      parameters:
+        - name: idType
+          in: path
+          required: true
+          type: integer
+          description: id of the type of routine
+      responses:
+        '200':
+          description: Ok
 
-
+  /routine-ms/routine/raiting/{idRoutine}:
+    put:
+      summary: let a user to rate a routine
+      operationId: raitingRoutine
+      parameters:
+        - name: idRoutine
+          in: path
+          required: true
+          type: integer
+          description: id of the routine to rate
+        - name: RaitingRoutinePOJO
+          in: body
+          required: true
+          description: POJO for rate a routine
+          schema:
+            $ref: '#/definitions/RegisterRoutinePOJO'
 
 definitions:
 
@@ -148,7 +198,7 @@ definitions:
         type: integer
   RegisterRoutinePOJOConflictModel:
     type: object
-    description: The type of routine doesnot exist
+    description: The type of routine doesnot exist or if you are updating the routine doesnot exist
     required:
       - idOwner
       - price
@@ -160,6 +210,34 @@ definitions:
       idOwner:
         type: integer
         example: 1
+        minimum: 1
+      price:
+        type: number
+        minimun: 0
+      name:
+        type: string
+      description:
+        type: string
+      link_preview:
+        type: string
+      idType:
+        type: integer
+        example: 0
+        minimun: 1
+  RegisterRoutinePOJOUnauthorizedModel:
+    type: object
+    description: The user with idOwner is not the routine's owner
+    required:
+      - idOwner
+      - price
+      - name
+      - description
+      - link_preview
+      - idType
+    properties:
+      idOwner:
+        type: integer
+        example: 0
         minimum: 1
       price:
         type: number
