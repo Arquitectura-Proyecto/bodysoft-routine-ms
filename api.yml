@@ -164,6 +164,114 @@ paths:
 
   /routine-ms/request/getByRoutine/{idRoutine}:
     get:
+      summary: Returns the request from a routine
+      operationId: getRequestByIdRoutine
+      parameters:
+        - name: idRoutine
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+  /routine-ms/resources/register/{idRoutine}:
+    post:
+      summary: register a new request
+      operationId: registerRequest
+      parameters:
+        - name: idRoutine
+          in: path
+          required: true
+          type: integer
+        - name: RegiterResourcePOJO
+          in: body
+          required: true
+          description: body for register a resource
+          schema:
+            $ref: "#/definitions/RegisterResourcePOJO"
+      responses:
+        '400':
+          description: Bad request. some element from the body is null or incorrect.
+        '201':
+          description: Created.
+        '409':
+          description: Conflict. the routine or the type of the resource doesnot exist.
+        '401':
+          description: Unauthorized. the person wich is trying to register the resource is not routine's owner
+  /routine-ms/resources/getByRoutine/{idRoutine}:
+    get:
+      summary: return resources from a routine
+      operationId: getResourcesByRoutine
+      parameters:
+        - name: idRoutine
+          in: path
+          required: true
+          type: integer
+        - name: GetRoutinePOJO
+          in: body
+          required: true
+          description: body for get resources by routine
+          schema:
+            $ref: "#/definitions/GetRoutinePOJO"
+      responses:
+        '400':
+          description: Bad request. The routine doesnot exist or some value in body is not correct or null.
+        '401':
+          description: Unauthorized. The requester has not bougth the routine and is not its owner
+        '200':
+          description: OK.
+  /routine-ms/resources/update/{idResource}:
+    put:
+      summary: update a resource.
+      operationId: updateResource
+      parameters:
+        - name: idResource
+          in: path
+          required: true
+          type: integer
+        - name: RegiterResourcePOJO
+          in: body
+          required: true
+          description: body for update a resource
+          schema:
+            $ref: "#/definitions/RegisterResourcePOJO"
+      responses:
+        '400':
+          description: Bad Request. some field in the body is null or not correct
+        '409':
+          description: Conflict. The resource or the resource´s type doesnot exist.
+        '401':
+          description: Unauthorized. The idOwner doesnot correspond to the resource´s owner
+        '200':
+          description: ok
+  /routine-ms/resources/delete/{idResource}:
+    delete:
+      summary: delete a resource given by idResource
+      operationId: deleteResource
+      parameters:
+        - name: idResource
+          in: path
+          required: true
+          type: integer
+        - name: OwnerPOJO
+          in: body
+          required: true
+          description: body for delete a resource.
+          schema:
+            $ref: "#/definitions/OwnerPOJO"
+      responses:
+        '409':
+          description: Conflict. The resource doesnot exist.
+        '401':
+          description: Unauthorized. the requester is not authorized for delete de resource.
+        '200':
+          description: Ok.
+  /routine-ms/user-routine/getAvailable/{idUser}:
+    get:
+      summary: returns UserRoutines with status available for an user
+      operationId
+
+
 
 definitions:
 
@@ -318,5 +426,46 @@ definitions:
         type: integer
         example: 1
       idUser:
+        type: integer
+        example: 1
+  RegisterResourcePOJO:
+    type: object
+    required:
+      -link
+      -title
+      -description
+      -position
+      -idType
+      -idOwner
+    properties:
+      link:
+        type: string
+        example: "htttp://www.miimagen.com/"
+      title:
+        type: string
+      description:
+        type: string
+      position:
+        type: integer
+      idType:
+        type: integer
+      idOwner:
+        type: integer
+
+
+  GetRoutinePOJO:
+    type: object
+    required:
+      -idRequester
+    properties:
+      idRequester:
+        type: integer
+        example: 1
+  OwnerPOJO:
+    type: object
+    required:
+      -idOwner
+    properties:
+      idOwner:
         type: integer
         example: 1

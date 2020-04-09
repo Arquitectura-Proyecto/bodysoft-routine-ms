@@ -40,7 +40,7 @@ public class ResourceController {
             Routine routine=routineService.getById(idRoutine);
             TypeResource typeResource=typeResourceService.getById(resourcePOJO.getIdType());
             if(routine==null || typeResource==null){
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity(HttpStatus.CONFLICT);
             }
             if(routine.getIdOwner()!=resourcePOJO.getIdOwner()){
                 return new ResponseEntity(HttpStatus.UNAUTHORIZED);
