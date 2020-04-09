@@ -39,89 +39,37 @@ paths:
           schema:
             $ref: '#/definitions/RegisterRoutinePOJOConflictModel'
 
-  /users/{id}:
+  /routine/byIdOwner/{idOwner}:
     get:
-      summary: Returns an user with the given id
+      summary: Returns all routines with the given idOwner
       operationId: getUserById
       parameters:
-        - name: id
+        - name: idOwner
           in: path
-          description: The id of the user to be returned
+          description: The id of the owner of the returned routines
           required: true
           type: integer
       responses:
         '200':
           description: Ok
-          schema:
-            $ref: '#/definitions/User'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '406':
-          description: Not Acceptable (Invalid Params)
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '500':
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/ErrorModel'
-
+  /routine/update/{idRoutine}:
     put:
-      summary: Updates an user with the given id
-      operationId: updateUser
+      summary: update the routine specified by the idRoutine
+      operationId: updateRoutineById
       parameters:
-        - name: id
+        - name: idRoutine
           in: path
-          description: The id of the user to be updated
+          description: id of the routine wich is going to update
           required: true
           type: integer
-        - name: user
+        - name: RegisterRoutinePOJO
           in: body
           required: true
-          description: User Object
+          description: Routine Object for Register
           schema:
-            $ref: '#/definitions/UserInput'
-      responses:
-        '204':
-          description: No Content
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '406':
-          description: Not Acceptable (Invalid Params)
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '500':
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/ErrorModel'
+            $ref: '#/definitions/RegisterRoutinePOJO'
 
-    delete:
-      summary: Deletes an user with the given id
-      operationId: deleteCUser
-      parameters:
-        - name: id
-          in: path
-          description: The id of the user to be deleted
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: Ok
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '406':
-          description: Not Acceptable (Invalid Params)
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '500':
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/ErrorModel'
+
 
 definitions:
 
@@ -157,6 +105,7 @@ definitions:
         type: string
       idType:
         type: integer
+        example: 1
 
   UsersList:
     type: object
@@ -223,5 +172,5 @@ definitions:
         type: string
       idType:
         type: integer
-        example: -1
+        example: 0
         minimun: 1
