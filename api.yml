@@ -83,14 +83,14 @@ paths:
           description: Unauthorized
           schema:
             $ref: "#/definitions/RegisterRoutinePOJOUnauthorizedModel"
-  /routine-ms/routine/getAll:
+  /routine/getAll:
     get:
       summary: Returns all routines registered
       operationId: getAllRoutine
       responses:
         '200':
           description: Ok
-  /routine-ms/routine/getByType/{idType}:
+  /routine/getByType/{idType}:
     get:
       summary: Returns all routines from a given type
       operationId: getAllRoutinesByIdType
@@ -104,7 +104,7 @@ paths:
         '200':
           description: Ok
 
-  /routine-ms/routine/raiting/{idRoutine}:
+  /routine/raiting/{idRoutine}:
     put:
       summary: let a user to rate a routine
       operationId: raitingRoutine
@@ -127,7 +127,7 @@ paths:
           description: Unauthorized. When the user cannot rate de routine because he has rated it or he has not bougth the routine
         '400':
           description: Bad request. when the body is not rigth or the routine doesnot exist
-  /routine-ms/request:
+  /request:
     post:
       summary: let a user request a routine
       operationId: requestRoutine
@@ -147,7 +147,7 @@ paths:
           description: Conflict . The routine doesnot exist
         '201':
           description: Created
-  /routine-ms/request/{idRequest}:
+  /request/{idRequest}:
     delete:
       summary: delete a the request given by idRequest
       operationId: deleteRequest
@@ -162,7 +162,7 @@ paths:
         '200':
           description: Ok. The request has been deleted
 
-  /routine-ms/request/getByRoutine/{idRoutine}:
+  /request/getByRoutine/{idRoutine}:
     get:
       summary: Returns the request from a routine
       operationId: getRequestByIdRoutine
@@ -174,7 +174,7 @@ paths:
       responses:
         '200':
           description: Ok
-  /routine-ms/resources/register/{idRoutine}:
+  /resources/register/{idRoutine}:
     post:
       summary: register a new request
       operationId: registerRequest
@@ -198,7 +198,7 @@ paths:
           description: Conflict. the routine or the type of the resource doesnot exist.
         '401':
           description: Unauthorized. the person wich is trying to register the resource is not routine's owner
-  /routine-ms/resources/getByRoutine/{idRoutine}:
+  /resources/getByRoutine/{idRoutine}:
     get:
       summary: return resources from a routine
       operationId: getResourcesByRoutine
@@ -220,7 +220,7 @@ paths:
           description: Unauthorized. The requester has not bougth the routine and is not its owner
         '200':
           description: OK.
-  /routine-ms/resources/update/{idResource}:
+  /resources/update/{idResource}:
     put:
       summary: update a resource.
       operationId: updateResource
@@ -244,7 +244,7 @@ paths:
           description: Unauthorized. The idOwner doesnot correspond to the resource´s owner
         '200':
           description: ok
-  /routine-ms/resources/delete/{idResource}:
+  /resources/delete/{idResource}:
     delete:
       summary: delete a resource given by idResource
       operationId: deleteResource
@@ -266,7 +266,7 @@ paths:
           description: Unauthorized. the requester is not authorized for delete de resource.
         '200':
           description: Ok.
-  /routine-ms/user-routine/getAvailable/{idUser}:
+  /user-routine/getAvailable/{idUser}:
     get:
       summary: returns UserRoutines with status available for an user
       operationId: userRoutineGetAvailable
@@ -278,7 +278,7 @@ paths:
       responses:
         '200':
           description: Ok
-  /routine-ms/user-routine/register:
+  /user-routine/register:
     post:
       summary: register a UserRoutine (association between user and routine or buy a routine)
       operationId: registerUserRoutine
@@ -296,7 +296,7 @@ paths:
           description: Unauthorized. The requester is not the routine´s owner
         '201':
           description: Created
-  /routine-ms/user-routine/changeStatus/{idRoutine}:
+  /user-routine/changeStatus/{idRoutine}:
     put:
       summary: update a UserRoutine
       operationId: updateUserRoutine
@@ -320,7 +320,7 @@ paths:
           description: Unauthorized.
         '200':
           description: Ok
-  /routine-ms/user-routine/get/{idUser}:
+  /user-routine/get/{idUser}:
     get:
       summary: return UserRoutine from a User
       operationId: getUserRoutineByIdUser
@@ -358,18 +358,18 @@ definitions:
         type: integer
         example: 1
 
-  UsersList:
-    type: object
-    required:
-      - total
-      - list
-    properties:
-      total:
-        type: number
-      list:
-        type: array
-        items:
-          $ref: '#/definitions/User'
+          #  UsersList:
+          #   type: object
+          #  required:
+          #   - total
+          #  - list
+          #properties:
+          # total:
+          #  type: number
+          #list:
+          # type: array
+          #items:
+        # $ref: '#/definitions/User'
 
   # Errors
   RegisterRoutinePOJOErrorModel:
