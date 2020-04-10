@@ -269,7 +269,69 @@ paths:
   /routine-ms/user-routine/getAvailable/{idUser}:
     get:
       summary: returns UserRoutines with status available for an user
-      operationId
+      operationId: userRoutineGetAvailable
+      parameters:
+        - name: idUser
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+  /routine-ms/user-routine/register:
+    post:
+      summary: register a UserRoutine (association between user and routine or buy a routine)
+      operationId: registerUserRoutine
+      parameters:
+        - name: RegisterUserRoutinePOJO
+          in: body
+          required: true
+          description: body for register a UserRoutine
+          schema:
+            $ref: "#/definitions/RegisterUserRoutinePOJO"
+      responses:
+        '400':
+          description: Bad Request. The routine or the status doesnot exist
+        '401':
+          description: Unauthorized. The requester is not the routine´s owner
+        '201':
+          description: Created
+  /routine-ms/user-routine/changeStatus/{idRoutine}:
+    put:
+      summary: update a UserRoutine
+      operationId: updateUserRoutine
+      parameters:
+        - name: idRoutine
+          in: path
+          type: integer
+          required: true
+        - name: ChangeStatusPOJO
+          in: body
+          required: true
+          description: body for change status of a UserRoutine
+          schema:
+            $ref: "#/definitions/ChangeStatusPOJO"
+      responses:
+        '400':
+          description: Bad request. The body has null fields or incorrect
+        '409':
+          description: Conflict. The routine or the status of UserRoutine doesnot exist
+        '401':
+          description: Unauthorized.
+        '200':
+          description: Ok
+  /routine-ms/user-routine/get/{idUser}:
+    get:
+      summary: return UserRoutine from a User
+      operationId: getUserRoutineByIdUser
+      parameters:
+        - name: idUser
+          type: integer
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Ok.
 
 
 
@@ -469,3 +531,36 @@ definitions:
       idOwner:
         type: integer
         example: 1
+  RegisterUserRoutinePOJO:
+    type: object
+    required:
+      -idUser
+      -idRoutine
+      -idStatus
+      -idOwner
+    properties:
+      idUser:
+        type: integer
+        example: 1
+      idRoutine:
+        type: integer
+        example: 1
+      idStatus:
+        type: integer
+        example: 1
+      idOwner:
+        type: integer
+        example: 2
+
+  ChangeStatusPOJO:
+    type: object
+    required:
+      -idUser
+      -idStatus
+    properties:
+      idUser:
+        type: integer
+        example: 1
+      idStatus:
+        type: integer
+        example: 2
