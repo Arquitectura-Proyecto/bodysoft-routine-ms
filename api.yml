@@ -1,0 +1,637 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Microservice for Routine Managment
+  description: Java + MySQL
+  license:
+    name: Software Architecture, 2020-I
+host: host:8080
+basePath: /routine-ms
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /register/routine:
+    post:
+      summary: Creates a new routine
+      operationId: createRoutine
+      parameters:
+        - name: RegisterRoutinePOJO
+          in: body
+          required: true
+          description: Routine Object for Register
+          schema:
+            $ref: '#/definitions/RegisterRoutinePOJO'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+
+        '409':
+          description: Conflict
+
+
+  /routine/byIdOwner/{idOwner}:
+    get:
+      summary: Returns all routines with the given idOwner
+      operationId: getRoutineByIdOwner
+      parameters:
+        - name: idOwner
+          in: path
+          description: The id of the owner of the returned routines
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: "#/definitions/arrayRoutines"
+  /routine/update/{idRoutine}:
+    put:
+      summary: update the routine specified by the idRoutine
+      operationId: updateRoutineById
+      parameters:
+        - name: idRoutine
+          in: path
+          description: id of the routine wich is going to update
+          required: true
+          type: integer
+        - name: RegisterRoutinePOJO
+          in: body
+          required: true
+          description: Routine Object for Register
+          schema:
+            $ref: '#/definitions/RegisterRoutinePOJO'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+
+        '409':
+          description: Conflict
+
+        '401':
+          description: Unauthorized
+
+  /routine/getAll:
+    get:
+      summary: Returns all routines registered
+      operationId: getAllRoutine
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: "#/definitions/arrayRoutines"
+  /routine/getByType/{idType}:
+    get:
+      summary: Returns all routines from a given type
+      operationId: getAllRoutinesByIdType
+      parameters:
+        - name: idType
+          in: path
+          required: true
+          type: integer
+          description: id of the type of routine
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: "#/definitions/arrayRoutines"
+
+  /routine/raiting/{idRoutine}:
+    put:
+      summary: let a user to rate a routine
+      operationId: raitingRoutine
+      parameters:
+        - name: idRoutine
+          in: path
+          required: true
+          type: integer
+          description: id of the routine to rate
+        - name: RaitingRoutinePOJO
+          in: body
+          required: true
+          description: POJO for rate a routine
+          schema:
+            $ref: '#/definitions/RaitingRoutinePOJO'
+      responses:
+        '200':
+          description: Ok. When the rate was successfull
+        '401':
+          description: Unauthorized. When the user cannot rate de routine because he has rated it or he has not bougth the routine
+        '400':
+          description: Bad request. when the body is not rigth or the routine doesnot exist
+  /request:
+    post:
+      summary: let a user request a routine
+      operationId: requestRoutine
+      parameters:
+        - name: RegisterRequestPOJO
+          in: body
+          required: true
+          description: body for register a new request of a routine
+          schema:
+            $ref: '#/definitions/RegisterRequestPOJO'
+
+
+      responses:
+        '400':
+          description: Bad Request. The body has null values or incorrect
+        '409':
+          description: Conflict . The routine doesnot exist
+        '201':
+          description: Created
+  /request/{idRequest}:
+    delete:
+      summary: delete a the request given by idRequest
+      operationId: deleteRequest
+      parameters:
+        - name: idRequest
+          in: path
+          required: true
+          type: integer
+      responses:
+        '409':
+          description: Conflict. the request doesnot exist
+        '200':
+          description: Ok. The request has been deleted
+
+  /request/getByRoutine/{idRoutine}:
+    get:
+      summary: Returns the request from a routine
+      operationId: getRequestByIdRoutine
+      parameters:
+        - name: idRoutine
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: "#/definitions/arrayRequest"
+  /resources/register/{idRoutine}:
+    post:
+      summary: register a new request
+      operationId: registerRequest
+      parameters:
+        - name: idRoutine
+          in: path
+          required: true
+          type: integer
+        - name: RegiterResourcePOJO
+          in: body
+          required: true
+          description: body for register a resource
+          schema:
+            $ref: "#/definitions/RegisterResourcePOJO"
+      responses:
+        '400':
+          description: Bad request. some element from the body is null or incorrect.
+        '201':
+          description: Created.
+        '409':
+          description: Conflict. the routine or the type of the resource doesnot exist.
+        '401':
+          description: Unauthorized. the person wich is trying to register the resource is not routine's owner
+  /resources/getByRoutine/{idRoutine}:
+    get:
+      summary: return resources from a routine
+      operationId: getResourcesByRoutine
+      parameters:
+        - name: idRoutine
+          in: path
+          required: true
+          type: integer
+        - name: GetRoutinePOJO
+          in: body
+          required: true
+          description: body for get resources by routine
+          schema:
+            $ref: "#/definitions/GetRoutinePOJO"
+      responses:
+        '400':
+          description: Bad request. The routine doesnot exist or some value in body is not correct or null.
+        '401':
+          description: Unauthorized. The requester has not bougth the routine and is not its owner
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/arrayResources"
+  /resources/update/{idResource}:
+    put:
+      summary: update a resource.
+      operationId: updateResource
+      parameters:
+        - name: idResource
+          in: path
+          required: true
+          type: integer
+        - name: RegiterResourcePOJO
+          in: body
+          required: true
+          description: body for update a resource
+          schema:
+            $ref: "#/definitions/RegisterResourcePOJO"
+      responses:
+        '400':
+          description: Bad Request. some field in the body is null or not correct
+        '409':
+          description: Conflict. The resource or the resource´s type doesnot exist.
+        '401':
+          description: Unauthorized. The idOwner doesnot correspond to the resource´s owner
+        '200':
+          description: ok
+  /resources/delete/{idResource}:
+    delete:
+      summary: delete a resource given by idResource
+      operationId: deleteResource
+      parameters:
+        - name: idResource
+          in: path
+          required: true
+          type: integer
+        - name: OwnerPOJO
+          in: body
+          required: true
+          description: body for delete a resource.
+          schema:
+            $ref: "#/definitions/OwnerPOJO"
+      responses:
+        '409':
+          description: Conflict. The resource doesnot exist.
+        '401':
+          description: Unauthorized. the requester is not authorized for delete de resource.
+        '200':
+          description: Ok.
+  /user-routine/getAvailable/{idUser}:
+    get:
+      summary: returns UserRoutines with status available for an user
+      operationId: userRoutineGetAvailable
+      parameters:
+        - name: idUser
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: "#/definitions/arrayUserRoutine"
+  /user-routine/register:
+    post:
+      summary: register a UserRoutine (association between user and routine or buy a routine)
+      operationId: registerUserRoutine
+      parameters:
+        - name: RegisterUserRoutinePOJO
+          in: body
+          required: true
+          description: body for register a UserRoutine
+          schema:
+            $ref: "#/definitions/RegisterUserRoutinePOJO"
+      responses:
+        '400':
+          description: Bad Request. The routine or the status doesnot exist
+        '401':
+          description: Unauthorized. The requester is not the routine´s owner
+        '201':
+          description: Created
+  /user-routine/changeStatus/{idRoutine}:
+    put:
+      summary: update a UserRoutine
+      operationId: updateUserRoutine
+      parameters:
+        - name: idRoutine
+          in: path
+          type: integer
+          required: true
+        - name: ChangeStatusPOJO
+          in: body
+          required: true
+          description: body for change status of a UserRoutine
+          schema:
+            $ref: "#/definitions/ChangeStatusPOJO"
+      responses:
+        '400':
+          description: Bad request. The body has null fields or incorrect
+        '409':
+          description: Conflict. The routine or the status of UserRoutine doesnot exist
+        '401':
+          description: Unauthorized.
+        '200':
+          description: Ok
+  /user-routine/get/{idUser}:
+    get:
+      summary: return UserRoutine from a User
+      operationId: getUserRoutineByIdUser
+      parameters:
+        - name: idUser
+          type: integer
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Ok.
+          schema:
+            $ref: "#/definitions/arrayUserRoutine"
+
+
+
+definitions:
+
+
+
+  RegisterRoutinePOJO:
+    type: object
+
+    properties:
+      idOwner:
+        type: integer
+        example: 1
+      price:
+        type: number
+      name:
+        type: string
+      description:
+        type: string
+      link_preview:
+        type: string
+      idType:
+        type: integer
+        example: 1
+
+          #  UsersList:
+          #   type: object
+          #  required:
+          #   - total
+          #  - list
+          #properties:
+          # total:
+          #  type: number
+          #list:
+          # type: array
+        #items:
+        # $ref: '#/definitions/User'
+
+  # Errors
+
+
+  RaitingRoutinePOJO:
+    type: object
+    required:
+      - raiting
+      - idUser
+    properties:
+      raiting:
+        type: number
+        example: 1.2
+      idUser:
+        type: integer
+        example: 1
+  RegisterRequestPOJO:
+    type: object
+    required:
+      - idRoutine
+      - idUser
+    properties:
+      idRoutine:
+        type: integer
+        example: 1
+      idUser:
+        type: integer
+        example: 1
+  RegisterResourcePOJO:
+    type: object
+    required:
+      - link
+      - title
+      - description
+      - position
+      - idType
+      - idOwner
+    properties:
+      link:
+        type: string
+        example: "htttp://www.miimagen.com/"
+      title:
+        type: string
+      description:
+        type: string
+      position:
+        type: integer
+      idType:
+        type: integer
+      idOwner:
+        type: integer
+
+
+  GetRoutinePOJO:
+    type: object
+    required:
+      - idRequester
+    properties:
+      idRequester:
+        type: integer
+        example: 1
+  OwnerPOJO:
+    type: object
+    required:
+      - idOwner
+    properties:
+      idOwner:
+        type: integer
+        example: 1
+  RegisterUserRoutinePOJO:
+    type: object
+    required:
+      - idUser
+      - idRoutine
+      - idStatus
+      - idOwner
+    properties:
+      idUser:
+        type: integer
+        example: 1
+      idRoutine:
+        type: integer
+        example: 1
+      idStatus:
+        type: integer
+        example: 1
+      idOwner:
+        type: integer
+        example: 2
+
+  ChangeStatusPOJO:
+    type: object
+    required:
+      - idUser
+      - idStatus
+    properties:
+      idUser:
+        type: integer
+        example: 1
+      idStatus:
+        type: integer
+        example: 2
+
+
+
+  arrayRoutines:
+    type: array
+    items:
+      $ref: '#/definitions/routineModel'
+
+  routineModel:
+    type: object
+    required:
+      - id
+      - idOwner
+      - rating
+      - numRaitings
+      - price
+      - name
+      - description
+      - linkPreview
+      - type
+    properties:
+      id:
+        type: integer
+      idOwner:
+        type: integer
+      rating:
+        type: number
+      numRaitings:
+        type: integer
+      price:
+        type: number
+      name:
+        type: string
+      description:
+        type: string
+      linkPreview:
+        type: string
+      type:
+        type: object
+        $ref: "#/definitions/typeModel"
+  typeModel:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+
+
+  requestModel:
+    type: object
+    required:
+      - id
+      - routine
+      - idUser
+    properties:
+      id:
+        type: integer
+      routine:
+        type: object
+        $ref: "#/definitions/routineModel"
+      idUser:
+        type: integer
+
+  arrayRequest:
+    type: array
+    items:
+      $ref: "#/definitions/requestModel"
+
+  resourceModel:
+    type: object
+    required:
+      - id
+      - routine
+      - link
+      - title
+      - description
+      - position
+      - type
+    properties:
+      id:
+        type: integer
+      routine:
+        type: object
+        $ref: "#/definitions/routineModel"
+      link:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      position:
+        type: integer
+      type:
+        type: object
+        $ref: "#/definitions/typeResourceModel"
+  typeResourceModel:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+
+
+
+  arrayResources:
+    type: array
+    items:
+      $ref: "#/definitions/resourceModel"
+
+
+
+  userRoutineModel:
+    type: object
+    required:
+      - id
+      - idUser
+      - routine
+      - status
+      - qualified
+    properties:
+      id:
+        type: integer
+      idUser:
+        type: integer
+      routine:
+        type: object
+        $ref: "#/definitions/routineModel"
+      status:
+        type: object
+        $ref: "#/definitions/typeUserRoutineModel"
+      qualified:
+        type: boolean
+  typeUserRoutineModel:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  arrayUserRoutine:
+    type: array
+    items:
+      $ref: "#/definitions/userRoutineModel"

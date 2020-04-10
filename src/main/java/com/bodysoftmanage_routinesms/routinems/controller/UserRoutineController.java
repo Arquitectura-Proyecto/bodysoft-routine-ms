@@ -34,7 +34,7 @@ public class UserRoutineController {
         return new ResponseEntity(userRoutineService.getAvailableByIdUser(idUser), HttpStatus.OK);
     }
     @PostMapping(value={"/routine-ms/user-routine/register"})
-    public ResponseEntity register(@RequestBody RegisterUserRoutinePOJO userRoutine){//permite a usuario comprar una rutina
+        public ResponseEntity register(@RequestBody RegisterUserRoutinePOJO userRoutine){//permite a usuario comprar una rutina
         Routine routine=routineService.getById(userRoutine.getIdRoutine());
         Status status=statusService.getById(userRoutine.getIdStatus());
         if(routine==null||status==null){
@@ -54,10 +54,17 @@ public class UserRoutineController {
         @PutMapping(value={"/routine-ms/user-routine/changeStatus/{idRoutine}"})
         public ResponseEntity changeStatus(@PathVariable Integer idRoutine, @RequestBody ChangeStatusPOJO changeStatus){
 
+
+            if(!userRoutineService.isCorrectChangeStatus(changeStatus)){
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+
             Status status=statusService.getById(changeStatus.getIdStatus());
             Routine routine=routineService.getById(idRoutine);
-            if(!userRoutineService.isCorrectChangeStatus(changeStatus)||status==null||routine==null){
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+            if(status==null||routine==null){
+                return new ResponseEntity(HttpStatus.CONFLICT);
+
             }
             UserRoutine userRoutine=userRoutineService.getByIdUserAndIdRoutine(changeStatus.getIdUser(),idRoutine);
             if(userRoutine==null){
