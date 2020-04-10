@@ -337,20 +337,7 @@ paths:
 
 definitions:
 
-  # Users
-  User:
-    type: object
-    properties:
-      id:
-        type: integer
-      firstName:
-        type: string
-      lastName:
-        type: string
-      username:
-        type: string
-      password:
-        type: string
+
 
   RegisterRoutinePOJO:
     type: object
@@ -427,7 +414,7 @@ definitions:
         minimum: 1
       price:
         type: number
-        minimun: 0
+        #minimun: 0
       name:
         type: string
       description:
@@ -437,7 +424,7 @@ definitions:
       idType:
         type: integer
         example: 0
-        minimun: 1
+        #minimun: 1
   RegisterRoutinePOJOUnauthorizedModel:
     type: object
     description: The user with idOwner is not the routine's owner
@@ -452,10 +439,10 @@ definitions:
       idOwner:
         type: integer
         example: 0
-        minimum: 1
+        #minimum: 1
       price:
         type: number
-        minimun: 0
+        #minimun: 0
       name:
         type: string
       description:
@@ -465,7 +452,7 @@ definitions:
       idType:
         type: integer
         example: 0
-        minimun: 1
+        #minimun: 1
   RaitingRoutinePOJO:
     type: object
     required:
@@ -481,8 +468,8 @@ definitions:
   RegisterRequestPOJO:
     type: object
     required:
-      -idRoutine
-      -idUser
+      - idRoutine
+      - idUser
     properties:
       idRoutine:
         type: integer
@@ -493,12 +480,12 @@ definitions:
   RegisterResourcePOJO:
     type: object
     required:
-      -link
-      -title
-      -description
-      -position
-      -idType
-      -idOwner
+      - link
+      - title
+      - description
+      - position
+      - idType
+      - idOwner
     properties:
       link:
         type: string
@@ -518,7 +505,7 @@ definitions:
   GetRoutinePOJO:
     type: object
     required:
-      -idRequester
+      - idRequester
     properties:
       idRequester:
         type: integer
@@ -526,7 +513,7 @@ definitions:
   OwnerPOJO:
     type: object
     required:
-      -idOwner
+      - idOwner
     properties:
       idOwner:
         type: integer
@@ -534,10 +521,10 @@ definitions:
   RegisterUserRoutinePOJO:
     type: object
     required:
-      -idUser
-      -idRoutine
-      -idStatus
-      -idOwner
+      - idUser
+      - idRoutine
+      - idStatus
+      - idOwner
     properties:
       idUser:
         type: integer
@@ -555,8 +542,8 @@ definitions:
   ChangeStatusPOJO:
     type: object
     required:
-      -idUser
-      -idStatus
+      - idUser
+      - idStatus
     properties:
       idUser:
         type: integer
