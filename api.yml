@@ -32,17 +32,15 @@ paths:
           description: Created
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/RegisterRoutinePOJOErrorModel'
+
         '409':
           description: Conflict
-          schema:
-            $ref: '#/definitions/RegisterRoutinePOJOConflictModel'
+
 
   /routine/byIdOwner/{idOwner}:
     get:
       summary: Returns all routines with the given idOwner
-      operationId: getUserById
+      operationId: getRoutineByIdOwner
       parameters:
         - name: idOwner
           in: path
@@ -52,6 +50,8 @@ paths:
       responses:
         '200':
           description: Ok
+          schema:
+            $ref: "#/definitions/arrayRoutines"
   /routine/update/{idRoutine}:
     put:
       summary: update the routine specified by the idRoutine
@@ -90,6 +90,8 @@ paths:
       responses:
         '200':
           description: Ok
+          schema:
+            $ref: "#/definitions/arrayRoutines"
   /routine/getByType/{idType}:
     get:
       summary: Returns all routines from a given type
@@ -103,6 +105,8 @@ paths:
       responses:
         '200':
           description: Ok
+          schema:
+            $ref: "#/definitions/arrayRoutines"
 
   /routine/raiting/{idRoutine}:
     put:
@@ -174,6 +178,8 @@ paths:
       responses:
         '200':
           description: Ok
+          schema:
+            $ref: "#/definitions/arrayRequest"
   /resources/register/{idRoutine}:
     post:
       summary: register a new request
@@ -220,6 +226,8 @@ paths:
           description: Unauthorized. The requester has not bougth the routine and is not its owner
         '200':
           description: OK.
+          schema:
+            $ref: "#/definitions/arrayResources"
   /resources/update/{idResource}:
     put:
       summary: update a resource.
@@ -278,6 +286,8 @@ paths:
       responses:
         '200':
           description: Ok
+          schema:
+            $ref: "#/definitions/arrayUserRoutine"
   /user-routine/register:
     post:
       summary: register a UserRoutine (association between user and routine or buy a routine)
@@ -332,6 +342,8 @@ paths:
       responses:
         '200':
           description: Ok.
+          schema:
+            $ref: "#/definitions/arrayUserRoutine"
 
 
 
@@ -368,7 +380,7 @@ definitions:
           #  type: number
           #list:
           # type: array
-          #items:
+        #items:
         # $ref: '#/definitions/User'
 
   # Errors
@@ -551,3 +563,157 @@ definitions:
       idStatus:
         type: integer
         example: 2
+
+
+
+  arrayRoutines:
+    type: array
+    items:
+      $ref: '#/definitions/routineModel'
+
+  routineModel:
+    type: object
+    required:
+      - id
+      - idOwner
+      - rating
+      - numRaitings
+      - price
+      - name
+      - description
+      - linkPreview
+      - type
+    properties:
+      id:
+        type: integer
+      idOwner:
+        type: integer
+      rating:
+        type: number
+      numRaitings:
+        type: integer
+      price:
+        type: number
+      name:
+        type: string
+      description:
+        type: string
+      linkPreview:
+        type: string
+      type:
+        type: object
+        $ref: "#/definitions/typeModel"
+  typeModel:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+
+
+  requestModel:
+    type: object
+    required:
+      - id
+      - routine
+      - idUser
+    properties:
+      id:
+        type: integer
+      routine:
+        type: object
+        $ref: "#/definitions/routineModel"
+      idUser:
+        type: integer
+
+  arrayRequest:
+    type: array
+    items:
+      $ref: "#/definitions/requestModel"
+
+  resourceModel:
+    type: object
+    required:
+      - id
+      - routine
+      - link
+      - title
+      - description
+      - position
+      - type
+    properties:
+      id:
+        type: integer
+      routine:
+        type: object
+        $ref: "#/definitions/routineModel"
+      link:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      position:
+        type: integer
+      type:
+        type: object
+        $ref: "#/definitions/typeResourceModel"
+  typeResourceModel:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+
+
+
+  arrayResources:
+    type: array
+    items:
+      $ref: "#/definitions/resourceModel"
+
+
+
+  userRoutineModel:
+    type: object
+    required:
+      - id
+      - idUser
+      - routine
+      - status
+      - qualified
+    properties:
+      id:
+        type: integer
+      idUser:
+        type: integer
+      routine:
+        type: object
+        $ref: "#/definitions/routineModel"
+      status:
+        type: object
+        $ref: "#/definitions/typeUserRoutineModel"
+      qualified:
+        type: boolean
+  typeUserRoutineModel:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  arrayUserRoutine:
+    type: array
+    items:
+      $ref: "#/definitions/userRoutineModel"
