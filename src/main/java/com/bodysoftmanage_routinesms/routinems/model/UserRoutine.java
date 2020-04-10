@@ -1,6 +1,6 @@
 package com.bodysoftmanage_routinesms.routinems.model;
 
-import javafx.beans.DefaultProperty;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
