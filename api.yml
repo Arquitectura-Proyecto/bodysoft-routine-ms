@@ -202,7 +202,7 @@ paths:
         '401':
           description: Unauthorized. the person wich is trying to register the resource is not routine's owner
   /resources/getByRoutine/{idRoutine}:
-    get:
+    post:
       summary: return resources from a routine
       operationId: getResourcesByRoutine
       parameters:
