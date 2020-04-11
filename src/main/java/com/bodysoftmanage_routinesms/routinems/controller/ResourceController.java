@@ -55,7 +55,7 @@ public class ResourceController {
             resourceService.save(newResource);
             return new ResponseEntity(HttpStatus.CREATED);
     }
-    @GetMapping(value={"/routine-ms/resources/getByRoutine/{idRoutine}"})
+    @PostMapping(value={"/routine-ms/resources/getByRoutine/{idRoutine}"})
     public ResponseEntity<List<Resource>>getByRoutine(@PathVariable Integer idRoutine, @RequestBody GetRoutinePOJO getRoutine){
         Routine routine=routineService.getById(idRoutine);
         if(routine==null|| !resourceService.isRigthGetByRoutine(getRoutine)){
