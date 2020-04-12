@@ -51,7 +51,7 @@ public class RoutineService {
     }
     public boolean isRigthRaiting(RaitingRoutinePOJO raitingRoutinePOJO){
         boolean correct=raitingRoutinePOJO.getIdUser()!=null &&raitingRoutinePOJO.getRaiting()!=null
-                &&raitingRoutinePOJO.getRaiting()>=0;
+                &&raitingRoutinePOJO.getRaiting()>=0 && raitingRoutinePOJO.getRaiting()<=5;
         return correct;
 
     }
