@@ -260,9 +260,8 @@ paths:
           type: integer
         - name: idOwner
           in: path
+          type: integer
           required: true
-
-
       responses:
         '409':
           description: Conflict. The resource doesnot exist.
@@ -340,6 +339,36 @@ paths:
           description: Ok.
           schema:
             $ref: "#/definitions/arrayUserRoutine"
+  /status/getAll:
+    get:
+      summary: returns all possible status of a user routine
+      operationId: getAllUserRoutineStatus
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/arrayStatusUserRoutine"
+
+  /typeRoutine/getAll:
+    get:
+      summary: returns all possible type of routine
+      operationId: getAlltypeRoutine
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/arrayTypeRoutine"
+  /typeResource/getAll:
+    get:
+      summary: returns all possible type of resource
+      operationId: getAlltypeResource
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/arrayTypeResource"
+
+
 
 
 
@@ -375,7 +404,7 @@ definitions:
           # total:
           #  type: number
           #list:
-          # type: array
+        # type: array
         #items:
         # $ref: '#/definitions/User'
 
@@ -634,3 +663,15 @@ definitions:
     type: array
     items:
       $ref: "#/definitions/userRoutineModel"
+  arrayStatusUserRoutine:
+    type: array
+    items:
+      $ref: "#/definitions/typeUserRoutineModel"
+  arrayTypeRoutine:
+    type: array
+    items:
+      $ref: "#/definitions/typeModel"
+  arrayTypeResource:
+    type: array
+    items:
+      $ref: "#/definitions/typeResourceModel"
