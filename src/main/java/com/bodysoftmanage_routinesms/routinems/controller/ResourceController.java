@@ -92,13 +92,13 @@ public class ResourceController {
         return new ResponseEntity(HttpStatus.OK);
 
     }
-    @DeleteMapping(value={"/routine-ms/resources/delete/{idResource}"})
-    public ResponseEntity delete(@PathVariable Integer idResource,@RequestBody OwnerPOJO ownerPOJO){
+    @DeleteMapping(value={"/routine-ms/resources/delete/{idResource}/{idOwner}"})
+    public ResponseEntity delete(@PathVariable Integer idResource,@PathVariable Integer idOwner){
         Resource resource=resourceService.getById(idResource);
         if(resource==null){
             return  new ResponseEntity(HttpStatus.CONFLICT);
         }
-        if(ownerPOJO.getIdOwner()==null||ownerPOJO.getIdOwner()!=resource.getRoutine().getIdOwner()){
+        if(idOwner==null||idOwner!=resource.getRoutine().getIdOwner()){
            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 
         }
