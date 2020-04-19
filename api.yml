@@ -249,7 +249,7 @@ paths:
           description: Unauthorized. The idOwner doesnot correspond to the resource´s owner
         '200':
           description: ok
-  /resources/delete/{idResource}:
+  /resources/delete/{idResource}/{idOwner}:
     delete:
       summary: delete a resource given by idResource
       operationId: deleteResource
@@ -258,12 +258,11 @@ paths:
           in: path
           required: true
           type: integer
-        - name: OwnerPOJO
-          in: body
+        - name: idOwner
+          in: path
           required: true
-          description: body for delete a resource.
-          schema:
-            $ref: "#/definitions/OwnerPOJO"
+
+
       responses:
         '409':
           description: Conflict. The resource doesnot exist.
