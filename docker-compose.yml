@@ -9,7 +9,8 @@ services:
       MYSQL_USER: root
     ports:
       - "3307:3306"
-
+    networks:
+      - routine-net
     healthcheck:
       test: "mysqlcheck -u$$MYSQL_USER -p$$MYSQL_ROOT_PASSWORD $$MYSQL_DATABASE"
       interval: 20s
@@ -20,6 +21,8 @@ services:
     build: .
     ports:
       - "8080:8080"
+    networks:
+      - routine-net
     depends_on:
       mysql-db:
         condition: service_healthy
@@ -36,4 +39,6 @@ services:
       spring.flyway.user: root
       spring.flyway.password: 1234
 
-
+networks:
+  routine-net:
+    driver: bridge
