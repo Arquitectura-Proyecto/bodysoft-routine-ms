@@ -1,0 +1,44 @@
+version: "2.1"
+
+services:
+  bodysoft-routine-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: root
+    ports:
+      - "3307:3306"
+    networks:
+      - routine-net
+    healthcheck:
+      test: "mysqlcheck -u$$MYSQL_USER -p$$MYSQL_ROOT_PASSWORD $$MYSQL_DATABASE"
+      interval: 20s
+      timeout: 5s
+      retries: 15
+  bodysoft-routine-ms:
+    image: routine-image
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - routine-net
+    depends_on:
+      bodysoft-routine-db:
+        condition: service_healthy
+
+    links:
+      - bodysoft-routine-db
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://bodysoft-routine-db:3306/mydb?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+      spring.flyway.url: jdbc:mysql://bodysoft-routine-db:3306/
+      spring.flyway.schemas: mydb
+      spring.flyway.user: root
+      spring.flyway.password: 1234
+
+networks:
+  routine-net:
+    driver: bridge

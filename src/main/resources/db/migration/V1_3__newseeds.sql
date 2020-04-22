@@ -1,0 +1,1 @@
+insert into `mydb`.`type_resource` values (2,'nota voz');
