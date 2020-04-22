@@ -1,7 +1,7 @@
 version: "2.1"
 
 services:
-  mysql-db:
+  bodysoft-routine-db:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: 1234
@@ -16,7 +16,7 @@ services:
       interval: 20s
       timeout: 5s
       retries: 15
-  routine-ms:
+  bodysoft-routine-ms:
     image: routine-image
     build: .
     ports:
@@ -24,17 +24,17 @@ services:
     networks:
       - routine-net
     depends_on:
-      mysql-db:
+      bodysoft-routine-db:
         condition: service_healthy
 
     links:
-      - mysql-db
+      - bodysoft-routine-db
 
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/mydb?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://bodysoft-routine-db:3306/mydb?autoReconnect=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
-      spring.flyway.url: jdbc:mysql://mysql-db:3306/
+      spring.flyway.url: jdbc:mysql://bodysoft-routine-db:3306/
       spring.flyway.schemas: mydb
       spring.flyway.user: root
       spring.flyway.password: 1234
