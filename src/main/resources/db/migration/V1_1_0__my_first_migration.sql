@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`routine` (
   `price` FLOAT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `description` VARCHAR(100) NOT NULL,
-  `link_preview` VARCHAR(100) NOT NULL,
+  `link_preview` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_routine_type_idx` (`id_type` ASC),
   CONSTRAINT `fk_routine_type`
@@ -67,7 +67,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`resource` (
   `id` INT NOT NULL,
   `id_routine` INT NOT NULL,
-  `link` VARCHAR(200) NOT NULL,
+  `link` VARCHAR(255) NOT NULL,
   `title` VARCHAR(45) NOT NULL,
   `description` VARCHAR(200) NOT NULL,
   `position` INT NOT NULL,
